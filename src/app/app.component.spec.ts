@@ -26,10 +26,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('RuleEngin');
   });
 
-  it('should render title', () => {
+  it('should render router outlet', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('RuleEngin app is running!');
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 });
