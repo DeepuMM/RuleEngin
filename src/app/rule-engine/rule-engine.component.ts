@@ -73,9 +73,29 @@ export class RuleEngineComponent implements OnInit {
     }
   }
   deleteElement(prefix,i){
-    debugger;
     let control = <FormArray>this.ruleEngineForm.get(prefix.slice(0, -1));
     control.removeAt(i);
+  }
+
+  copyToClipboard() {
+    const jsonString = JSON.stringify(this.ruleEngineForm.value, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+      alert('JSON copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  }
+
+  loadFromJson() {
+    const jsonInput = prompt('Paste your JSON rule here:');
+    if (jsonInput) {
+      try {
+        const parsedData = JSON.parse(jsonInput);
+        this.ruleEngineForm = this.buildForm(parsedData);
+      } catch (e) {
+        alert('Invalid JSON format. Please check your input.');
+      }
+    }
   }
 
 }
