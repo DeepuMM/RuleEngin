@@ -86,6 +86,19 @@ export class RuleEngineComponent implements OnInit {
     });
   }
 
+  downloadJson() {
+    const jsonString = JSON.stringify(this.ruleEngineForm.value, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rule-engine-schema.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
+
   loadFromJson() {
     const jsonInput = prompt('Paste your JSON rule here:');
     if (jsonInput) {
@@ -95,6 +108,12 @@ export class RuleEngineComponent implements OnInit {
       } catch (e) {
         alert('Invalid JSON format. Please check your input.');
       }
+    }
+  }
+
+  resetForm() {
+    if (confirm('Are you sure you want to reset the form? All changes will be lost.')) {
+      this.ruleEngineForm = this.buildForm(data);
     }
   }
 

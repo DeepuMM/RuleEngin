@@ -3,7 +3,9 @@
         <h4 class="mb-0">Rule Engine</h4>
         <div>
             <button type="button" class="btn btn-success mr-2" (click)="loadFromJson()">Load JSON</button>
-            <button type="button" class="btn btn-info" (click)="copyToClipboard()">Copy JSON</button>
+            <button type="button" class="btn btn-primary mr-2" (click)="downloadJson()">Download JSON</button>
+            <button type="button" class="btn btn-info mr-2" (click)="copyToClipboard()">Copy JSON</button>
+            <button type="button" class="btn btn-warning" (click)="resetForm()">Reset</button>
         </div>
     </div>
     <form class="tree" [formGroup]="ruleEngineForm" (ngSubmit)="onSubmit()">
