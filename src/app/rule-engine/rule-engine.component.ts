@@ -73,9 +73,48 @@ export class RuleEngineComponent implements OnInit {
     }
   }
   deleteElement(prefix,i){
-    debugger;
     let control = <FormArray>this.ruleEngineForm.get(prefix.slice(0, -1));
     control.removeAt(i);
+  }
+
+  copyToClipboard() {
+    const jsonString = JSON.stringify(this.ruleEngineForm.value, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+      alert('JSON copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  }
+
+  downloadJson() {
+    const jsonString = JSON.stringify(this.ruleEngineForm.value, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rule-engine-schema.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
+
+  loadFromJson() {
+    const jsonInput = prompt('Paste your JSON rule here:');
+    if (jsonInput) {
+      try {
+        const parsedData = JSON.parse(jsonInput);
+        this.ruleEngineForm = this.buildForm(parsedData);
+      } catch (e) {
+        alert('Invalid JSON format. Please check your input.');
+      }
+    }
+  }
+
+  resetForm() {
+    if (confirm('Are you sure you want to reset the form? All changes will be lost.')) {
+      this.ruleEngineForm = this.buildForm(data);
+    }
   }
 
 }
